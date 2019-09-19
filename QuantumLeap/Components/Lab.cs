@@ -6,5 +6,8 @@ namespace QuantumLeap.Components
 {
     class Lab
     {
+        DateTime leapDate = new DateTime();
+
+
     }
 }
