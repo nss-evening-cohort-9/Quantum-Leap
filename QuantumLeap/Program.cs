@@ -8,8 +8,8 @@ namespace QuantumLeap
     {
         static void Main(string[] args)
         {
-            //var ui = new UserInterface();
-            //ui.DisplayUserInterface();
+            var ui = new UserInterface();
+            ui.DisplayUserInterface();
             HostRepository hostRepo = new HostRepository();
             Host randomHost = hostRepo.GetRandom();
             Console.WriteLine(randomHost.Name);
