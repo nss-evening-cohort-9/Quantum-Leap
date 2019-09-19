@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuantumLeap.Components;
+using System;
 
 namespace QuantumLeap
 {
@@ -6,7 +7,8 @@ namespace QuantumLeap
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var ui = new UserInterface();
+            ui.DisplayUserInterface();
         }
     }
 }
