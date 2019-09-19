@@ -9,6 +9,9 @@ namespace QuantumLeap
         {
             var ui = new UserInterface();
             ui.DisplayUserInterface();
+
+            var bfe = new Lab();
+            bfe.ButterflyEffect();
         }
     }
 }
