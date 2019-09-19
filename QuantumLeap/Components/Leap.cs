@@ -6,16 +6,16 @@ namespace QuantumLeap.Components
 {
     class Leap
     {
-        public Guid ID { get; } = Guid.NewGuid();
+        public Guid Id { get; } = Guid.NewGuid();
         public Guid EventId { get; }
         public Guid LeaperId { get; }
         public Guid HostId { get; }
 
-        public Leap(Guid eventId, Guid leaperId, Guid hostId)
+        public Leap()
         {
-            EventId = eventId;
-            LeaperId = leaperId;
-            HostId = hostId;
+            //EventId = eventId;
+            //LeaperId = leaperId;
+            //HostId = hostId;
         }
     }
 }
