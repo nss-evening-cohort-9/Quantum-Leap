@@ -6,5 +6,9 @@ namespace QuantumLeap.Components
 {
     class Lab
     {
+        public void AttemptLeap()
+        {
+            Console.WriteLine("\nNot yet implemented\n");
+        }
     }
 }
