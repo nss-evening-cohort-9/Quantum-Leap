@@ -6,8 +6,9 @@ namespace QuantumLeap.Components
 {
     class Lab
     {
-        DateTime leapDate = new DateTime();
-
-
+        public void AttemptLeap()
+        {
+            Console.WriteLine("\nNot yet implemented\n");
+        }
     }
 }
