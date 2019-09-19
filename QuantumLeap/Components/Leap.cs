@@ -11,11 +11,11 @@ namespace QuantumLeap.Components
         public Guid LeaperId { get; }
         public Guid HostId { get; }
 
-        public Leap()
+        public Leap(Guid eventId, Guid leaperId, Guid hostId)
         {
-            //EventId = eventId;
-            //LeaperId = leaperId;
-            //HostId = hostId;
+            EventId = eventId;
+            LeaperId = leaperId;
+            HostId = hostId;
         }
     }
 }
