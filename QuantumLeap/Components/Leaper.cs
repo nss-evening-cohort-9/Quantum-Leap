@@ -10,5 +10,10 @@ namespace QuantumLeap.Components
         public Guid ID { get; } = Guid.NewGuid();
 
         public string Name { get; set; }
+
+        public Leaper(string name)
+        {
+            Name = name;
+        }
     }
 }
