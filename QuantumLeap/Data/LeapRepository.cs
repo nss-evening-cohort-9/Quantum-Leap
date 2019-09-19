@@ -12,14 +12,14 @@ namespace QuantumLeap.Data
         public string GetLeapHistoryAsString()
         {
             var leapHistory = "";
-            _leaps.Select(leap =>
-            {
-                var leapLog = $"Location: {leap.Location}\n";
-                leapLog += $"Date: {leap.Date}\n";
-                leapLog += $"Leaper: {leap.Leaper}\n";
-                leapLog += $"Host: {leap.Host}\n\n";
-                return leapLog;
-            });
+            //_leaps.Select(leap =>
+            //{
+            //    var leapLog = $"Location: {leap.Location}\n";
+            //    leapLog += $"Date: {leap.Date}\n";
+            //    leapLog += $"Leaper: {leap.Leaper}\n";
+            //    leapLog += $"Host: {leap.Host}\n\n";
+            //    return leapLog;
+            //});
             return leapHistory;
         }
     }
