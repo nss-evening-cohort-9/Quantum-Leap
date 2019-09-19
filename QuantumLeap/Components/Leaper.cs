@@ -6,5 +6,7 @@ namespace QuantumLeap.Components
 {
     class Leaper
     {
+        public Guid ID { get; set; }
+        public string Name { get; set; }
     }
 }
