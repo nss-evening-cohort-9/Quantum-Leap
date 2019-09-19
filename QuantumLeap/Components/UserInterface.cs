@@ -10,18 +10,13 @@ namespace QuantumLeap.Components
     {
         Leaper _leaper;
         Lab _lab = new Lab();
-        LeapRepository _leapRepo = new LeapRepository();
-        private void ChooseLeaper()
-        {
-            var leapers = new List<Leaper>()
-            {
-                new Leaper("Samuel"),
-                new Leaper("Josh"),
-                new Leaper("Andrew"),
-                new Leaper("Sean")
-            };
 
-            Console.WriteLine("Welcom to Quantum Leap. Choose your leaper by typing their name.\n");
+        private void ChooseLeaperGui()
+        {
+            var leaperRepo = new LeaperRepository();
+            var leapers = leaperRepo.GetAll();
+
+            Console.WriteLine("Welcom to Quantum Leap. What is your name.\n");
             foreach (var leaper in leapers)
             {
                 Console.WriteLine(leaper.Name);
@@ -31,7 +26,7 @@ namespace QuantumLeap.Components
             _leaper = leapers.Find(leaper => leaper.Name.ToLower() == selection.ToLower());
             if (_leaper == null)
             {
-                Console.WriteLine("\nThat user does not exist. Please try again.\n");
+                Console.WriteLine("\nSorry, you do not appear to be an authorized leaper. Talk to Jason Lee Scott for more info.\n");
             }
 
 
@@ -53,7 +48,7 @@ namespace QuantumLeap.Components
         }
         public void DisplayUserInterface()
         {
-            ChooseLeaper();
+            ChooseLeaperGui();
 
             Console.WriteLine($"\nWelcome back {_leaper.Name}, what would you like to do?\n");
 
@@ -63,14 +58,15 @@ namespace QuantumLeap.Components
                 Console.WriteLine("Type \"leap\" to take a leap.");
                 Console.WriteLine("Type \"fund\" to add more money to your budget.");
                 Console.WriteLine("Type \"history\" for a list of your past leaps.");
-                Console.WriteLine("Or type \"home\" to close up shop and go home.\n");
+                Console.WriteLine("Or type \"quit\" to close up shop and go home.\n");
 
                 selection = Console.ReadLine();
 
                 switch (selection)
                 {
                     case "history":
-                        var leapHistory = _leapRepo.GetLeapHistoryAsString();
+                        var leapRepo = new LeapRepository();
+                        var leapHistory = leapRepo.GetLeapHistory();
                         Console.WriteLine(leapHistory);
                         break;
                     case "fund":
@@ -81,10 +77,16 @@ namespace QuantumLeap.Components
                     case "leap":
                         _lab.AttemptLeap();
                         break;
+                    case "quit":
+                        Console.WriteLine($"\nHave a good night {_leaper.Name}.");
+                        break;
+                    default:
+                        Console.WriteLine("\nThat is an invalid request. Please try again.\n");
+                        break;
                 }
 
             }
-            while (selection != "home");
+            while (selection != "quit");
         }
     }
 }

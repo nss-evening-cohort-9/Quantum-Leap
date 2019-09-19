@@ -9,18 +9,19 @@ namespace QuantumLeap.Data
     class LeapRepository
     {
         static List<Leap> _leaps = new List<Leap>();
-        public string GetLeapHistoryAsString()
+
+        public List<Leap> GetAll()
         {
-            var leapHistory = "";
-            //_leaps.Select(leap =>
-            //{
-            //    var leapLog = $"Location: {leap.Location}\n";
-            //    leapLog += $"Date: {leap.Date}\n";
-            //    leapLog += $"Leaper: {leap.Leaper}\n";
-            //    leapLog += $"Host: {leap.Host}\n\n";
-            //    return leapLog;
-            //});
-            return leapHistory;
+            return _leaps;
+        }
+        public Leap GetLeapById(Guid leapId)
+        {
+            var requestedLeap = _leaps.Find(leap => leap.Id == leapId);
+            return requestedLeap;
+        }
+        public string GetLeapHistory()
+        {
+            return "\nayy no history lmao\n";
         }
     }
 }
