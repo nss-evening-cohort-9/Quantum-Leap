@@ -7,19 +7,15 @@ namespace QuantumLeap.Components
     class Leap
     {
         public Guid ID { get; } = Guid.NewGuid();
-        public string MyEvent { get; set; }
-        public Event EventId { get; }
-        public string Location { get; }
-        public DateTime Date { get; }
-        public Leaper Leaper { get; }
-        public Host Host { get; }
+        public Guid EventId { get; }
+        public Guid LeaperId { get; }
+        public Guid HostId { get; }
 
-        public Leap(string location, DateTime date, Leaper leaper, Host host)
+        public Leap(Guid eventId, Guid leaperId, Guid hostId)
         {
-            Location = location;
-            Date = date;
-            Leaper = leaper;
-            Host = host;
+            EventId = eventId;
+            LeaperId = leaperId;
+            HostId = hostId;
         }
     }
 }
