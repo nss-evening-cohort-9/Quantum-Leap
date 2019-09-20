@@ -6,5 +6,6 @@ namespace QuantumLeap.Components
 {
     class Event
     {
+        public Guid EventId { get; } = Guid.NewGuid();
     }
 }
