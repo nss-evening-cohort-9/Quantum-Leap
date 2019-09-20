@@ -67,6 +67,7 @@ namespace QuantumLeap.Components
                     case "history":
                         var leapRepo = new LeapRepository();
                         var leapHistory = leapRepo.GetLeapHistory();
+                        Console.WriteLine();
                         Console.WriteLine(leapHistory);
                         break;
                     case "fund":

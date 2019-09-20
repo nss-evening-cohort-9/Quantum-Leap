@@ -19,6 +19,10 @@ namespace QuantumLeap.Data
         {
             return _leapers;
         }
+        public void Add(Leaper leaper)
+        {
+            _leapers.Add(leaper);
+        }
         public Leaper GetLeaperById(Guid leaperId)
         {
             var requestedLeaper = _leapers.Find(leaper => leaper.Id == leaperId);
