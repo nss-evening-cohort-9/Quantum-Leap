@@ -109,29 +109,32 @@ namespace QuantumLeap.Components
         // Filter through events
         public void ButterflyEffect()
         {
-            var LeapList = new List<Event>();
-            LeapList.Add(new Event() { Location = "Las Vegas", HistoricalDate = 1996, isPutRight = false });
-            LeapList.Add(new Event() { Location = "Overton High", HistoricalDate = 2004, isPutRight = true });
-            LeapList.Add(new Event() { Location = "NSS", HistoricalDate = 2020, isPutRight = true });
+            // Filter through events
+            void ButterflyEffect(DateTime leapDate)
+            {
+                var allEvents = new EventRepository().GetAll();
 
-            foreach(var e in LeapList)
-                if(e.HistoricalDate >= 2000)
+                var futureEvents = allEvents.FindAll(x => x.HistoricalDate > leapDate);
+
+                Random rand = new Random();
+                var randIndex = rand.Next(0, futureEvents.Count);
+                var randEvent = futureEvents[randIndex];
+
+                bool newRightness = Convert.ToBoolean(rand.Next(0, 1));
+                //bool newRightness = true;
+
+                bool oldRightness = randEvent.IsPutRight;
+
+                if (oldRightness != newRightness)
                 {
-                    Console.WriteLine(e);
+                    randEvent.IsPutRight = newRightness;
+                    Console.WriteLine($"You changed {randEvent.Location}");
                 }
                 else
                 {
-                    Console.WriteLine("Not a moment in history");
+                    Console.WriteLine("You didn't change the future of our existence.");
                 }
-
-
-        }
-
-        public class Event
-        {
-            public string Location { get; set; } 
-            public int HistoricalDate { get; set; } 
-            public bool isPutRight { get; set; } 
+            }
         }
     }
 }
