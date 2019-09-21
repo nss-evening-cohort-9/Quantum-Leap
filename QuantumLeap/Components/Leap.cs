@@ -11,16 +11,11 @@ namespace QuantumLeap.Components
         public Guid LeaperId { get; }
         public Guid HostId { get; }
 
-        public Leap(Guid eventId, Event _eventRepo, Guid leaperId, Guid hostId)
+        public Leap(Guid eventId, Guid leaperId, Guid hostId)
         {
             EventId = eventId;
             LeaperId = leaperId;
             HostId = hostId;
-        }
-
-        internal static object Last()
-        {
-            throw new NotImplementedException();
         }
     }
 }

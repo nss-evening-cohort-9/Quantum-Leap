@@ -24,7 +24,7 @@ namespace QuantumLeap.Components
         public DateTime CurrentEventDate()
         {
             var leaps = new LeapRepository().GetAll();
-            
+
             if (leaps.Count > 0)
             {
                 var leap = leaps.Last();
@@ -41,6 +41,26 @@ namespace QuantumLeap.Components
             }
         }
 
+        public bool isLeapIdentical(Event randomEvent, Host randomHost)
+        {
+            var leaps = new LeapRepository().GetAll();
+            if (leaps.Count < 1)
+            {
+                return false;
+            }
+            var getLastLeap = leaps.Last();
+            var lastHostId = getLastLeap.HostId;
+            var lastEventId = getLastLeap.EventId;
+            if (lastHostId == randomHost.Id && lastEventId == randomEvent.Id)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public int DateDistance(DateTime currentEventDate, Event evnt)
         {
             DateTime newDate = evnt.HistoricalDate;
@@ -50,9 +70,21 @@ namespace QuantumLeap.Components
 
         public void AttemptLeap(Leaper leaper)
         {
-            var randomEvent = new EventRepository().GetRandom();
+            Event randomEvent;
+            Host randomHost;
 
-            var randomHost = new HostRepository().GetRandom();
+            while (true)
+            {
+                randomEvent = new EventRepository().GetRandom();
+
+                randomHost = new HostRepository().GetRandom();
+
+                bool compareHostAndEventWithLastLeap = isLeapIdentical(randomEvent, randomHost);
+                if (!compareHostAndEventWithLastLeap)
+                {
+                    break;
+                }
+            }
 
             var currentDate = CurrentEventDate();
 
@@ -62,11 +94,11 @@ namespace QuantumLeap.Components
 
             if (dailyCostOfTravel > _budget)
             {
-                Console.WriteLine("Not enough funds to leap.");
+                Console.WriteLine($"Not enough funds to leap. {_budget}");
             } 
             else
             {
-                Leap leap = new Leap(randomEvent.Id, randomEvent, leaper.Id, randomHost.Id);
+                Leap leap = new Leap(randomEvent.Id, leaper.Id, randomHost.Id);
                 SubtractFunds(dailyCostOfTravel);
                 LeapRepository makeLeap = new LeapRepository();
                 makeLeap.Add(leap);
