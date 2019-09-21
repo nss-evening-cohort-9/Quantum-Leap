@@ -24,10 +24,11 @@ namespace QuantumLeap.Components
                 {
                     Console.WriteLine(e);
                 }
-        }
+                else
+                {
+                    Console.WriteLine("Not a moment in history");
+                }
 
-        public bool isPutRightDecider()
-        {
 
         }
 
