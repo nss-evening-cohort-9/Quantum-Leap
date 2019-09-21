@@ -41,6 +41,7 @@ namespace QuantumLeap.Components
             {
                 Console.WriteLine("You didn't change the future of our existence.");
             }
+        }
 
             public void SubtractFunds(int removeThisMuchMoney)
             {
@@ -131,37 +132,5 @@ namespace QuantumLeap.Components
                     Console.WriteLine($"Congrats, you have successfully leaped to {randomEvent.Location}.");
                 }
             }
-
-            // Filter through events
-            public void ButterflyEffect()
-            {
-                // Filter through events
-                void ButterflyEffect(DateTime leapDate)
-                {
-                    var allEvents = new EventRepository().GetAll();
-
-                    var futureEvents = allEvents.FindAll(x => x.HistoricalDate > leapDate);
-
-                    Random rand = new Random();
-                    var randIndex = rand.Next(0, futureEvents.Count);
-                    var randEvent = futureEvents[randIndex];
-
-                    bool newRightness = Convert.ToBoolean(rand.Next(0, 1));
-                    //bool newRightness = true;
-
-                    bool oldRightness = randEvent.IsPutRight;
-
-                    if (oldRightness != newRightness)
-                    {
-                        randEvent.IsPutRight = newRightness;
-                        Console.WriteLine($"You changed {randEvent.Location}");
-                    }
-                    else
-                    {
-                        Console.WriteLine("You didn't change the future of our existence.");
-                    }
-                }
-            }
-        }
     }
 }
