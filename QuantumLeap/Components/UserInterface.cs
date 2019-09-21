@@ -82,13 +82,14 @@ namespace QuantumLeap.Components
                     case "fund":
                         Console.WriteLine("Enter the amount.\n");
                         var fundAmount = Console.ReadLine();
+                        var budget = _lab.AddFunds(fundAmount);
                         Console.WriteLine();
-                        Console.WriteLine($"You added ${fundAmount} to your budget.\n");
+                        Console.WriteLine($"You added ${fundAmount} to your budget. Your budget is ${budget}.\n");
 
                         Console.WriteLine("What would you like to do next?\n");
                         break;
                     case "leap":
-                        _lab.AttemptLeap();
+                        _lab.AttemptLeap(_leaper);
 
                         Console.WriteLine("What would you like to do next?\n");
                         break;

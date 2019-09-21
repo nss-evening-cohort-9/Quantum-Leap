@@ -38,7 +38,7 @@ namespace QuantumLeap.Data
                 leapLog += $"Location: {eventToLog.Location}\n";
                 leapLog += $"Date: {eventToLog.HistoricalDate}\n";
                 leapLog += $"Leaper: {leaperToLog.Name}\n";
-                leapLog += $"Host: {hostToLog.Name}\n\n";
+                leapLog += $"Host: {hostToLog.Name}\n";
             };
             return leapLog == "" ? "You haven't made any leaps yet.\n" : $"{leapLog}\n";
         }
