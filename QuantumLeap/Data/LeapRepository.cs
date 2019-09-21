@@ -40,7 +40,7 @@ namespace QuantumLeap.Data
                 leapLog += $"Leaper: {leaperToLog.Name}\n";
                 leapLog += $"Host: {hostToLog.Name}\n\n";
             };
-            return leapLog;
+            return leapLog == "" ? "You haven't made any leaps yet.\n" : $"{leapLog}\n";
         }
     }
 }

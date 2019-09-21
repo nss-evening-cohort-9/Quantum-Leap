@@ -16,7 +16,7 @@ namespace QuantumLeap.Components
             var leaperRepo = new LeaperRepository();
             var leapers = leaperRepo.GetAll();
 
-            Console.WriteLine("Welcom to Quantum Leap. What is your name.\n");
+            Console.WriteLine("Welcom to Quantum Leap. What is your name?\n");
             foreach (var leaper in leapers)
             {
                 Console.WriteLine(leaper.Name);
@@ -26,13 +26,16 @@ namespace QuantumLeap.Components
             _leaper = leapers.Find(leaper => leaper.Name.ToLower() == selection.ToLower());
             if (_leaper == null)
             {
-                Console.WriteLine("\nSorry, you do not appear to be an authorized leaper. Talk to Jason Lee Scott for more info.\n");
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Sorry, you do not appear to be an authorized leaper. Talk to Jason Lee Scott for more info, or try again.\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
 
 
             while (_leaper == null)
             {
-                Console.WriteLine("Choose your leaper by typing their name.\n");
+                Console.WriteLine("What is your name?\n");
                 foreach (var leaper in leapers)
                 {
                     Console.WriteLine(leaper.Name);
@@ -42,15 +45,19 @@ namespace QuantumLeap.Components
                 _leaper = leapers.Find(leaper => leaper.Name.ToLower() == selection.ToLower());
                 if (_leaper == null)
                 {
-                    Console.WriteLine("\nThat user does not exist. Please try again.\n");
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Sorry, you do not appear to be an authorized leaper. Talk to Jason Lee Scott for more info, or try again.\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }
+            Console.Clear();
         }
         public void DisplayUserInterface()
         {
             ChooseLeaperGui();
 
-            Console.WriteLine($"\nWelcome back {_leaper.Name}, what would you like to do?\n");
+            Console.WriteLine($"Welcome back {_leaper.Name}, what would you like to do?\n");
 
             var selection = "";
             do
@@ -61,28 +68,39 @@ namespace QuantumLeap.Components
                 Console.WriteLine("Or type \"quit\" to close up shop and go home.\n");
 
                 selection = Console.ReadLine();
+                Console.Clear();
 
                 switch (selection)
                 {
                     case "history":
                         var leapRepo = new LeapRepository();
                         var leapHistory = leapRepo.GetLeapHistory();
-                        Console.WriteLine();
-                        Console.WriteLine(leapHistory);
+                        Console.WriteLine($"{leapHistory}");
+
+                        Console.WriteLine("What would you like to do next?\n");
                         break;
                     case "fund":
-                        Console.WriteLine("\nEnter the amount.\n");
+                        Console.WriteLine("Enter the amount.\n");
                         var fundAmount = Console.ReadLine();
-                        Console.WriteLine($"\nYou added ${fundAmount} to your budget.\n");
+                        Console.WriteLine();
+                        Console.WriteLine($"You added ${fundAmount} to your budget.\n");
+
+                        Console.WriteLine("What would you like to do next?\n");
                         break;
                     case "leap":
                         _lab.AttemptLeap();
+
+                        Console.WriteLine("What would you like to do next?\n");
                         break;
                     case "quit":
-                        Console.WriteLine($"\nHave a good night {_leaper.Name}.");
+                        Console.WriteLine($"Have a good night {_leaper.Name}.");
                         break;
                     default:
-                        Console.WriteLine("\nThat is an invalid request. Please try again.\n");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("That is an invalid request. Please try again.\n");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+
+                        Console.WriteLine("What would you like to do?\n");
                         break;
                 }
 

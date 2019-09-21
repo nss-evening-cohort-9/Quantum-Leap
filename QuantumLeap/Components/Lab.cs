@@ -8,7 +8,7 @@ namespace QuantumLeap.Components
     {
         public void AttemptLeap()
         {
-            Console.WriteLine("\nNot yet implemented\n");
+            Console.WriteLine("Not yet implemented\n");
         }
     }
 }
