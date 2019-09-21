@@ -17,5 +17,10 @@ namespace QuantumLeap.Components
             LeaperId = leaperId;
             HostId = hostId;
         }
+
+        internal static object Last()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,37 +1,77 @@
 ﻿using QuantumLeap.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace QuantumLeap.Components
 {
     class Lab
     {
-
+        private int _budget = 100000;
         public int AddFunds(string fundAmount)
         {
             int newFunds = Int32.Parse(fundAmount);
-            var budget = 100000 + newFunds;
-            return budget;
+            _budget += newFunds;
+            return _budget;
         }
 
-        public DateTime CurrentLocation()
+        public void SubtractFunds(int removeThisMuchMoney)
         {
-            var leaps = new LeapRepository();
-            //if (leaps)
-            var location = DateTime.Now;
-            return location;
+            _budget -= removeThisMuchMoney;
+        }
+
+        public DateTime CurrentEventDate()
+        {
+            var leaps = new LeapRepository().GetAll();
+            
+            if (leaps.Count > 0)
+            {
+                var leap = leaps.Last();
+                var currentEventId = leap.EventId;
+
+                var currentEvent = new EventRepository().GetEventById(currentEventId);
+                var eventDate = currentEvent.HistoricalDate;
+                return eventDate;
+            }
+            else
+            {
+                var eventDate = DateTime.Now;
+                return eventDate;
+            }
+        }
+
+        public int DateDistance(DateTime currentEventDate, Event evnt)
+        {
+            DateTime newDate = evnt.HistoricalDate;
+            TimeSpan difference = currentEventDate - newDate;
+            return difference.Days;
         }
 
         public void AttemptLeap(Leaper leaper)
         {
-            var eventRepo = new EventRepository().GetRandom();
+            var randomEvent = new EventRepository().GetRandom();
 
-            var hostRepo = new HostRepository().GetRandom();
+            var randomHost = new HostRepository().GetRandom();
 
-            Leap leap = new Leap(eventRepo.Id, eventRepo, leaper.Id, hostRepo.Id);
+            var currentDate = CurrentEventDate();
 
-            // Console.WriteLine("\nNot yet implemented\n");
+            int eventsDateDifference = DateDistance(currentDate, randomEvent);
+            
+            int dailyCostOfTravel = 1000 * eventsDateDifference;
+
+            if (dailyCostOfTravel > _budget)
+            {
+                Console.WriteLine("Not enough funds to leap.");
+            } 
+            else
+            {
+                Leap leap = new Leap(randomEvent.Id, randomEvent, leaper.Id, randomHost.Id);
+                SubtractFunds(dailyCostOfTravel);
+                LeapRepository makeLeap = new LeapRepository();
+                makeLeap.Add(leap);
+                Console.WriteLine($"Congrats, you have successfully leaped to {randomEvent.Location}.");
+            }
         }
     }
 }
