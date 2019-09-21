@@ -15,10 +15,10 @@ namespace QuantumLeap.Components
         {
             var leapers = new List<Leaper>()
             {
-                new Leaper { Name = "Samuel" },
-                new Leaper { Name = "Josh" },
-                new Leaper { Name = "Andrew" },
-                new Leaper { Name = "Sean" }
+                new Leaper("Samuel"),
+                new Leaper("Josh"),
+                new Leaper("Andrew"),
+                new Leaper("Sean")
             };
 
             Console.WriteLine("Welcom to Quantum Leap. Choose your leaper by typing their name.\n");
