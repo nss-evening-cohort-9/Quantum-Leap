@@ -21,6 +21,12 @@ namespace QuantumLeap.Data
             return _hosts;
         }
 
+        public Host GetHostById(Guid id)
+        {
+            Host requestedEvent = _hosts.Find(x => x.Id == id);
+            return requestedEvent;
+        }
+
         public Host GetRandom()
         {
             int randomIndex = random.Next(0, _hosts.Count);
