@@ -26,6 +26,11 @@ namespace QuantumLeap.Components
                 }
         }
 
+        public bool isPutRightDecider()
+        {
+
+        }
+
         public class Event
         {
             public string Location { get; set; } 
