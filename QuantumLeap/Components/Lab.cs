@@ -8,11 +8,20 @@ namespace QuantumLeap.Components
 {
     class Lab
     {
-        private int _budget = 100000;
+        private int _budget = 20000000;
+        private int _maxBudget = 999999999;
         public int AddFunds(string fundAmount)
         {
+            if (fundAmount.Length > 9)
+            {
+                fundAmount = fundAmount.Remove(9);
+            }
             int newFunds = Int32.Parse(fundAmount);
             _budget += newFunds;
+            if (_budget > _maxBudget)
+            {
+                _budget = _maxBudget;
+            }
             return _budget;
         }
 
@@ -94,7 +103,7 @@ namespace QuantumLeap.Components
 
             if (dailyCostOfTravel > _budget)
             {
-                Console.WriteLine($"Not enough funds to leap. {_budget}");
+                Console.WriteLine($"Not enough funds to leap to that spot in time. \nYour current budget is only ${_budget}.\n");
             } 
             else
             {
