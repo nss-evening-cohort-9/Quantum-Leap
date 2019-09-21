@@ -27,15 +27,14 @@ namespace QuantumLeap.Components
             var randIndex = rand.Next(0, futureEvents.Count);
             var randEvent = futureEvents[randIndex];
 
-            bool newRightness = Convert.ToBoolean(rand.Next(0, 1));
-            //bool newRightness = true;
+            bool newRightness = Convert.ToBoolean(rand.Next(0, 2));
 
             bool oldRightness = randEvent.IsPutRight;
 
             if (oldRightness != newRightness)
             {
                 randEvent.IsPutRight = newRightness;
-                Console.WriteLine($"You changed {randEvent.Location}");
+                Console.WriteLine($"You changed {randEvent.Location}, {randEvent.HistoricalDate}");
             }
             else
             {
