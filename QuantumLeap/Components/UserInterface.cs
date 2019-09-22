@@ -75,7 +75,7 @@ namespace QuantumLeap.Components
                     case "history":
                         var leapRepo = new LeapRepository();
                         var leapHistory = leapRepo.GetLeapHistory();
-                        Console.WriteLine($"{leapHistory}");
+                        Console.WriteLine(leapHistory);
 
                         Console.WriteLine("What would you like to do next?\n");
                         break;

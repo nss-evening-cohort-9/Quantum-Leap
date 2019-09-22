@@ -8,12 +8,38 @@ namespace QuantumLeap.Components
 {
     class Lab
     {
-        private int _budget = 100000;
+        private int _budget = 10000000;
         public int AddFunds(string fundAmount)
         {
             int newFunds = Int32.Parse(fundAmount);
             _budget += newFunds;
             return _budget;
+        }
+
+        public void ButterflyEffect(DateTime leapDate)
+        {
+            var allEvents = new EventRepository().GetAll();
+
+            var futureEvents = allEvents.FindAll(x => x.HistoricalDate > leapDate);
+            if (futureEvents.Count == 0) return;
+
+            Random rand = new Random();
+            var randIndex = rand.Next(0, futureEvents.Count);
+            var randEvent = futureEvents[randIndex];
+
+            bool newRightness = Convert.ToBoolean(rand.Next(0, 2));
+
+            bool oldRightness = randEvent.IsPutRight;
+
+            if (oldRightness != newRightness)
+            {
+                randEvent.IsPutRight = newRightness;
+                Console.WriteLine($"You changed {randEvent.Location}, {randEvent.HistoricalDate}.\n");
+            }
+            else
+            {
+                Console.WriteLine("You didn't change the future of our existence.\n");
+            }
         }
 
         public void SubtractFunds(int removeThisMuchMoney)
@@ -76,7 +102,6 @@ namespace QuantumLeap.Components
             while (true)
             {
                 randomEvent = new EventRepository().GetRandom();
-
                 randomHost = new HostRepository().GetRandom();
 
                 bool compareHostAndEventWithLastLeap = isLeapIdentical(randomEvent, randomHost);
@@ -89,20 +114,25 @@ namespace QuantumLeap.Components
             var currentDate = CurrentEventDate();
 
             int eventsDateDifference = DateDistance(currentDate, randomEvent);
-            
+
             int dailyCostOfTravel = 1000 * eventsDateDifference;
 
             if (dailyCostOfTravel > _budget)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Not enough funds to leap. Your budget is ${_budget}.\n");
-            } 
+                Console.ForegroundColor = ConsoleColor.Gray;
+
+            }
             else
             {
                 Leap leap = new Leap(randomEvent.Id, leaper.Id, randomHost.Id);
                 SubtractFunds(dailyCostOfTravel);
                 LeapRepository makeLeap = new LeapRepository();
                 makeLeap.Add(leap);
-                Console.WriteLine($"Congrats, you have successfully leaped to {randomEvent.Location}.\n");
+                Console.WriteLine($"Congrats {leaper.Name}, you have leaped into {randomHost.Name}. You are at {randomEvent.Location} in the year {randomEvent.HistoricalDate.Year}\n");
+
+                ButterflyEffect(randomEvent.HistoricalDate);
             }
         }
     }
