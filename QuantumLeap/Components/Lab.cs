@@ -21,10 +21,14 @@ namespace QuantumLeap.Components
             var allEvents = new EventRepository().GetAll();
 
             var futureEvents = allEvents.FindAll(x => x.HistoricalDate > leapDate);
-            if (futureEvents.Count == 0) return;
+            if (futureEvents.Count == 0)
+            {
+                Console.WriteLine("You didn't change the future of our existence.\n");
+                return;
+            }
 
             Random rand = new Random();
-            var randIndex = rand.Next(0, futureEvents.Count);
+            var randIndex = rand.Next(0, futureEvents.Count - 1);
             var randEvent = futureEvents[randIndex];
 
             bool newRightness = Convert.ToBoolean(rand.Next(0, 2));
