@@ -23,7 +23,9 @@ namespace QuantumLeap.Components
             var futureEvents = allEvents.FindAll(x => x.HistoricalDate > leapDate);
             if (futureEvents.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("You didn't change the future of our existence.\n");
+                Console.ForegroundColor = ConsoleColor.White;
                 return;
             }
 
@@ -38,11 +40,15 @@ namespace QuantumLeap.Components
             if (oldRightness != newRightness)
             {
                 randEvent.IsPutRight = newRightness;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"You changed {randEvent.Location}, {randEvent.HistoricalDate}.\n");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("You didn't change the future of our existence.\n");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -123,9 +129,9 @@ namespace QuantumLeap.Components
 
             if (dailyCostOfTravel > _budget)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Not enough funds to leap. Your budget is ${_budget}.\n");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.White;
 
             }
             else
@@ -134,7 +140,9 @@ namespace QuantumLeap.Components
                 SubtractFunds(dailyCostOfTravel);
                 LeapRepository makeLeap = new LeapRepository();
                 makeLeap.Add(leap);
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Congrats {leaper.Name}, you have leaped into {randomHost.Name}. You are at {randomEvent.Location} in the year {randomEvent.HistoricalDate.Year}\n");
+                Console.ForegroundColor = ConsoleColor.White;
 
                 ButterflyEffect(randomEvent.HistoricalDate);
             }

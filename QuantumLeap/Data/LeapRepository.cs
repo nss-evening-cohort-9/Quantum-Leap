@@ -48,14 +48,13 @@ namespace QuantumLeap.Data
                     leapOrderInfo = leapIteration.ToString();
                 }
 
-                leapIteration++;
-
                 leapLog += $"{leapOrderInfo}\n";
                 leapLog += $"Location: {eventToLog.Location}\n";
                 leapLog += $"Date: {eventToLog.HistoricalDate.Date}\n";
                 leapLog += $"Leaper: {leaperToLog.Name}\n";
                 leapLog += $"Host: {hostToLog.Name}\n";
-                leapLog += leapIteration == _leaps.Count ? "\n" : "";
+                leapLog += leapIteration == _leaps.Count ? "" : "\n";
+                leapIteration++;
             };
             return leapLog == "" ? "You haven't made any leaps yet.\n" : $"{leapLog}";
         }
