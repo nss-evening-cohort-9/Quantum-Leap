@@ -16,94 +16,120 @@ namespace QuantumLeap.Components
             return _budget;
         }
 
-        public void SubtractFunds(int removeThisMuchMoney)
+        // Filter through events
+        public void ButterflyEffect(DateTime leapDate)
         {
-            _budget -= removeThisMuchMoney;
-        }
+            var allEvents = new EventRepository().GetAll();
 
-        public DateTime CurrentEventDate()
-        {
-            var leaps = new LeapRepository().GetAll();
+            var futureEvents = allEvents.FindAll(x => x.HistoricalDate > leapDate);
 
-            if (leaps.Count > 0)
+            Random rand = new Random();
+            var randIndex = rand.Next(0, futureEvents.Count);
+            var randEvent = futureEvents[randIndex];
+
+            bool newRightness = Convert.ToBoolean(rand.Next(0, 2));
+
+            bool oldRightness = randEvent.IsPutRight;
+
+            if (oldRightness != newRightness)
             {
-                var leap = leaps.Last();
-                var currentEventId = leap.EventId;
-
-                var currentEvent = new EventRepository().GetEventById(currentEventId);
-                var eventDate = currentEvent.HistoricalDate;
-                return eventDate;
+                randEvent.IsPutRight = newRightness;
+                Console.WriteLine($"You changed {randEvent.Location}, {randEvent.HistoricalDate}");
             }
             else
             {
-                var eventDate = DateTime.Now;
-                return eventDate;
+                Console.WriteLine("You didn't change the future of our existence.");
             }
         }
 
-        public bool isLeapIdentical(Event randomEvent, Host randomHost)
-        {
-            var leaps = new LeapRepository().GetAll();
-            if (leaps.Count < 1)
+            public void SubtractFunds(int removeThisMuchMoney)
             {
-                return false;
+                _budget -= removeThisMuchMoney;
             }
-            var getLastLeap = leaps.Last();
-            var lastHostId = getLastLeap.HostId;
-            var lastEventId = getLastLeap.EventId;
-            if (lastHostId == randomHost.Id && lastEventId == randomEvent.Id)
+
+            public DateTime CurrentEventDate()
             {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+                var leaps = new LeapRepository().GetAll();
 
-        public int DateDistance(DateTime currentEventDate, Event evnt)
-        {
-            DateTime newDate = evnt.HistoricalDate;
-            TimeSpan difference = currentEventDate - newDate;
-            return difference.Days;
-        }
-
-        public void AttemptLeap(Leaper leaper)
-        {
-            Event randomEvent;
-            Host randomHost;
-
-            while (true)
-            {
-                randomEvent = new EventRepository().GetRandom();
-
-                randomHost = new HostRepository().GetRandom();
-
-                bool compareHostAndEventWithLastLeap = isLeapIdentical(randomEvent, randomHost);
-                if (!compareHostAndEventWithLastLeap)
+                if (leaps.Count > 0)
                 {
-                    break;
+                    var leap = leaps.Last();
+                    var currentEventId = leap.EventId;
+
+                    var currentEvent = new EventRepository().GetEventById(currentEventId);
+                    var eventDate = currentEvent.HistoricalDate;
+                    return eventDate;
+                }
+                else
+                {
+                    var eventDate = DateTime.Now;
+                    return eventDate;
                 }
             }
 
-            var currentDate = CurrentEventDate();
-
-            int eventsDateDifference = DateDistance(currentDate, randomEvent);
-            
-            int dailyCostOfTravel = 1000 * eventsDateDifference;
-
-            if (dailyCostOfTravel > _budget)
+            public bool isLeapIdentical(Event randomEvent, Host randomHost)
             {
-                Console.WriteLine($"Not enough funds to leap. {_budget}");
-            } 
-            else
-            {
-                Leap leap = new Leap(randomEvent.Id, leaper.Id, randomHost.Id);
-                SubtractFunds(dailyCostOfTravel);
-                LeapRepository makeLeap = new LeapRepository();
-                makeLeap.Add(leap);
-                Console.WriteLine($"Congrats, you have successfully leaped to {randomEvent.Location}.");
+                var leaps = new LeapRepository().GetAll();
+                if (leaps.Count < 1)
+                {
+                    return false;
+                }
+                var getLastLeap = leaps.Last();
+                var lastHostId = getLastLeap.HostId;
+                var lastEventId = getLastLeap.EventId;
+                if (lastHostId == randomHost.Id && lastEventId == randomEvent.Id)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-        }
+
+            public int DateDistance(DateTime currentEventDate, Event evnt)
+            {
+                DateTime newDate = evnt.HistoricalDate;
+                TimeSpan difference = currentEventDate - newDate;
+                return difference.Days;
+            }
+
+            public void AttemptLeap(Leaper leaper)
+            {
+                Event randomEvent;
+                Host randomHost;
+
+                while (true)
+                {
+                    randomEvent = new EventRepository().GetRandom();
+
+                    randomHost = new HostRepository().GetRandom();
+
+                    bool compareHostAndEventWithLastLeap = isLeapIdentical(randomEvent, randomHost);
+                    if (!compareHostAndEventWithLastLeap)
+                    {
+                        break;
+                    }
+                }
+
+                var currentDate = CurrentEventDate();
+
+                int eventsDateDifference = DateDistance(currentDate, randomEvent);
+
+                int dailyCostOfTravel = 1000 * eventsDateDifference;
+
+                if (dailyCostOfTravel > _budget)
+                {
+                    Console.WriteLine($"Not enough funds to leap. {_budget}");
+                }
+                else
+                {
+                    Leap leap = new Leap(randomEvent.Id, leaper.Id, randomHost.Id);
+                    SubtractFunds(dailyCostOfTravel);
+                    LeapRepository makeLeap = new LeapRepository();
+                    makeLeap.Add(leap);
+                    Console.WriteLine($"Congrats, you have successfully leaped to {randomEvent.Location}.");
+                }
+            }
     }
 }
