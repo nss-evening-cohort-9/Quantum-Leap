@@ -144,7 +144,11 @@ namespace QuantumLeap.Components
 
             if (dailyCostOfTravel > _budget)
             {
-                Console.WriteLine($"Not enough funds to leap to that spot in time. \nYour current budget is only ${_budget}.\n");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Not enough funds to leap to that spot in time.\n");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Your current budget is only ${_budget}. The cost of that leap is {dailyCostOfTravel}.\n");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
