@@ -10,6 +10,33 @@ namespace QuantumLeap.Components
     {
         private int _budget = 20000000;
         private int _maxBudget = 999999999;
+
+        // Filter through events
+        public void ButterflyEffect(DateTime leapDate)
+        {
+            var allEvents = new EventRepository().GetAll();
+
+            var futureEvents = allEvents.FindAll(x => x.HistoricalDate > leapDate);
+
+            Random rand = new Random();
+            var randIndex = rand.Next(0, futureEvents.Count);
+            var randEvent = futureEvents[randIndex];
+
+            bool newRightness = Convert.ToBoolean(rand.Next(0, 2));
+
+            bool oldRightness = randEvent.IsPutRight;
+
+            if (oldRightness != newRightness)
+            {
+                randEvent.IsPutRight = newRightness;
+                Console.WriteLine($"You changed {randEvent.Location}, {randEvent.HistoricalDate}");
+            }
+            else
+            {
+                Console.WriteLine("You didn't change the future of our existence.");
+            }
+        }
+
         public int AddFunds(string fundAmount)
         {
             if (fundAmount.Length > 9)
@@ -24,6 +51,7 @@ namespace QuantumLeap.Components
             }
             return _budget;
         }
+
 
         public void SubtractFunds(int removeThisMuchMoney)
         {
@@ -98,13 +126,13 @@ namespace QuantumLeap.Components
             var currentDate = CurrentEventDate();
 
             int eventsDateDifference = DateDistance(currentDate, randomEvent);
-            
+
             int dailyCostOfTravel = 1000 * eventsDateDifference;
 
             if (dailyCostOfTravel > _budget)
             {
                 Console.WriteLine($"Not enough funds to leap to that spot in time. \nYour current budget is only ${_budget}.\n");
-            } 
+            }
             else
             {
                 Leap leap = new Leap(randomEvent.Id, leaper.Id, randomHost.Id);
