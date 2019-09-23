@@ -8,14 +8,10 @@ namespace QuantumLeap.Components
 {
     class Lab
     {
-        private int _budget = 10000000;
-        public int AddFunds(string fundAmount)
-        {
-            int newFunds = Int32.Parse(fundAmount);
-            _budget += newFunds;
-            return _budget;
-        }
+        private int _budget = 20000000;
+        private int _maxBudget = 999999999;
 
+        // Filter through events
         public void ButterflyEffect(Event currentEvent)
         {
             var allEvents = new EventRepository().GetAll();
@@ -24,7 +20,7 @@ namespace QuantumLeap.Components
             if (futureEvents.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("The future is still intact.\n");
+                Console.WriteLine("The time continum is still intact.\n");
                 Console.ForegroundColor = ConsoleColor.White;
                 return;
             }
@@ -43,16 +39,32 @@ namespace QuantumLeap.Components
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 var futureDate = $"{randEvent.HistoricalDate.Month}/{randEvent.HistoricalDate.Day}/{randEvent.HistoricalDate.Year}";
                 var currentDate = $"{currentEvent.HistoricalDate.Month}/{currentEvent.HistoricalDate.Day}/{currentEvent.HistoricalDate.Year}";
-                Console.WriteLine($"You changed {randEvent.Location}, {futureDate}, by visiting {currentEvent.Location}, {currentDate}.\n");
+                Console.WriteLine($"You affected the future reality of {randEvent.Location}, {futureDate}, by visiting {currentEvent.Location}, {currentDate}.\n");
                 Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("The future is still intact.\n");
+                Console.WriteLine("The time continum is still intact.\n");
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
+
+        public int AddFunds(string fundAmount)
+        {
+            if (fundAmount.Length > 9)
+            {
+                fundAmount = fundAmount.Remove(9);
+            }
+            int newFunds = Int32.Parse(fundAmount);
+            _budget += newFunds;
+            if (_budget > _maxBudget)
+            {
+                _budget = _maxBudget;
+            }
+            return _budget;
+        }
+
 
         public void SubtractFunds(int removeThisMuchMoney)
         {
@@ -114,6 +126,7 @@ namespace QuantumLeap.Components
             while (true)
             {
                 randomEvent = new EventRepository().GetRandom();
+
                 randomHost = new HostRepository().GetRandom();
 
                 bool compareHostAndEventWithLastLeap = isLeapIdentical(randomEvent, randomHost);
@@ -132,9 +145,10 @@ namespace QuantumLeap.Components
             if (dailyCostOfTravel > _budget)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Not enough funds to leap. Your budget is ${_budget}.\n");
+                Console.WriteLine("Not enough funds to leap to that spot in time.\n");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Your current budget is only ${_budget}. The cost of that leap is {dailyCostOfTravel}.\n");
                 Console.ForegroundColor = ConsoleColor.White;
-
             }
             else
             {
