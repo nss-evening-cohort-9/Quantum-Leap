@@ -115,7 +115,7 @@ namespace QuantumLeap.Components
                             Console.ForegroundColor = ConsoleColor.White;
                         } else
                         {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.WriteLine(leapHistory);
                             Console.ForegroundColor = ConsoleColor.White;
                         }

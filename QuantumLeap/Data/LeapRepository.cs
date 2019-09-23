@@ -35,6 +35,7 @@ namespace QuantumLeap.Data
                 var eventToLog = eventRepo.GetEventById(leap.EventId);
                 var leaperToLog = leaperRepo.GetLeaperById(leap.LeaperId);
                 var hostToLog = hostRepo.GetHostById(leap.HostId);
+                var date = $"{eventToLog.HistoricalDate.Month}/{eventToLog.HistoricalDate.Day}/{eventToLog.HistoricalDate.Year}";
                 var leapOrderInfo = "";
                 
                 if (leapIteration == 1)
@@ -50,7 +51,7 @@ namespace QuantumLeap.Data
 
                 leapLog += $"{leapOrderInfo}\n";
                 leapLog += $"Location: {eventToLog.Location}\n";
-                leapLog += $"Date: {eventToLog.HistoricalDate.Date}\n";
+                leapLog += $"Date: {date}\n";
                 leapLog += $"Leaper: {leaperToLog.Name}\n";
                 leapLog += $"Host: {hostToLog.Name}\n";
                 leapLog += leapIteration == _leaps.Count ? "" : "\n";

@@ -16,15 +16,15 @@ namespace QuantumLeap.Components
             return _budget;
         }
 
-        public void ButterflyEffect(DateTime leapDate)
+        public void ButterflyEffect(Event currentEvent)
         {
             var allEvents = new EventRepository().GetAll();
 
-            var futureEvents = allEvents.FindAll(x => x.HistoricalDate > leapDate);
+            var futureEvents = allEvents.FindAll(x => x.HistoricalDate > currentEvent.HistoricalDate);
             if (futureEvents.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("You didn't change the future of our existence.\n");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("The future is still intact.\n");
                 Console.ForegroundColor = ConsoleColor.White;
                 return;
             }
@@ -41,13 +41,15 @@ namespace QuantumLeap.Components
             {
                 randEvent.IsPutRight = newRightness;
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"You changed {randEvent.Location}, {randEvent.HistoricalDate}.\n");
+                var futureDate = $"{randEvent.HistoricalDate.Month}/{randEvent.HistoricalDate.Day}/{randEvent.HistoricalDate.Year}";
+                var currentDate = $"{currentEvent.HistoricalDate.Month}/{currentEvent.HistoricalDate.Day}/{currentEvent.HistoricalDate.Year}";
+                Console.WriteLine($"You changed {randEvent.Location}, {futureDate}, by visiting {currentEvent.Location}, {currentDate}.\n");
                 Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("You didn't change the future of our existence.\n");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("The future is still intact.\n");
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
@@ -144,7 +146,7 @@ namespace QuantumLeap.Components
                 Console.WriteLine($"Congrats {leaper.Name}, you have leaped into {randomHost.Name}. You are at {randomEvent.Location} in the year {randomEvent.HistoricalDate.Year}\n");
                 Console.ForegroundColor = ConsoleColor.White;
 
-                ButterflyEffect(randomEvent.HistoricalDate);
+                ButterflyEffect(randomEvent);
             }
         }
     }
